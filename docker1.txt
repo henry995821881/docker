@@ -7,6 +7,8 @@
 
 docker logs <容器名orID> 2>&1 | grep '^User: ' | tail -n1
 
+docker logs   2>&1 | grep '^User: ' | tail -n1
+
 因为Docker容器启动时的root用户的密码是随机分配的。所以，通过这种方式就可以得到redmine容器的root用户的密码了。
 
 
@@ -115,3 +117,7 @@ ubuntu14的febootstrap没有-i命令
 
 Dockerfile中的EXPOSE、docker run --expose、docker run -p之间的区别
 Dockerfile的EXPOSE相当于docker run --expose，提供container之间的端口访问。docker run -p允许container外部主机访问container的端口
+
+
+进入容器
+docker exec -it 775c7c9ee1e1 /bin/bash
