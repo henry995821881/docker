@@ -95,6 +95,10 @@ $ sudo docker stop $ID
 
 docker run -d -p 127.0.0.1:33301:22 centos6-ssh
 
+后台运行(-d)、并暴露端口(-p)映射多个端口:
+
+docker run -d -p 33301:22 -p 33302:23 centos6-ssh
+
 从Container中拷贝文件出来
 
 sudo docker cp 7bb0e258aefe:/etc/debian_version .
