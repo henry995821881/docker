@@ -40,7 +40,16 @@ docker images
 
 docker run -d -it -p 93:80 --name nginx henry/nginx:v1
 
+
+
 firewall-cmd --permanent --zone=public --add-port=93/tcp
+firewall-cmd --reload
+
+容器copy文件:
+
+docker cp 容器id:/usr/local/src/hello.js  /root/
+
+docker cp  /root/hello.html  容器id:/usr/local/src/
 
 访问 http://本机地址:93
 

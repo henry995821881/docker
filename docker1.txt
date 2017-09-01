@@ -125,3 +125,8 @@ Dockerfile的EXPOSE相当于docker run --expose，提供container之间的端口访问。docker
 
 进入容器
 docker exec -it 775c7c9ee1e1 /bin/bash
+
+复制文件 
+docker cp 容器id:/usr/local/src/hello.js  /root/
+
+docker cp  /root/hello.html  容器id:/usr/local/src/
