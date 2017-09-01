@@ -1,0 +1,56 @@
+实战：构建nginx
+ 
+ 准备dockerfile 同目录下有2个文件
+pcre-8.38.tar.gz
+nginx-1.7.4.tar.gz
+
+wget ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.38.tar.gz
+
+
+
+#This is My first Dockerfile#version 1.0
+#Author: hh 
+#Base image 基础镜像
+FROM centos
+#MAINTAINER 维护者信息
+MAINTAINER henry yang
+#ADD
+ADD pcre-8.38.tar.gz /usr/local/src
+ADD nginx-1.7.4.tar.gz /usr/local/src
+#RUN
+RUN yum -y install wget gcc gcc-c++ make openssl openssl-devel
+RUN useradd -s /sbin/nologin -M www 
+#WORKDIR
+WORKDIR /usr/local/src/nginx-1.7.4 
+RUN ./configure --prefix=/usr/local/nginx --user=www --group=www --with-http_ssl_module --with-http_stub_status_module \
+--with-pcre=/usr/local/src/pcre-8.38 && make && make install
+RUN echo "daemon off;">>/usr/local/nginx/conf/nginx.conf 
+#ENV定义环境变量
+ENV PATH /usr/local/nginx/sbin:$PATH 
+#EXPOSE 映射端口
+EXPOSE 80 
+CMD ["nginx"]
+
+
+docker build -t henry/nginx:v1 .
+
+docker run -d -it -p 93:80 --name nginx henry/nginx:v1
+
+firewall-cmd --permanent --zone=public --add-port=93/tcp
+
+访问 http://本机地址:93
+
+-----------------------------------------------
+基于网易已经做好的镜像
+
+下面再看下dockerfile 的使用
+通过docker build命令可以建立镜像。
+通常需要文本文件Dockerfile,例子如下：
+from hub.c.163.com/library/nginx ----基于的镜像
+run echo "hello world" >/etc/nginx/index.xml ----追加到index.html 末尾
+expose 80 ---暴露80端口
+cmd 'nginx' ----启动nginx服务
+保存后，运行 docker build -t mynginx:1.0 .
+然后运行 docker images ,查看到所构建的镜像。
+通过 docker run -d -p 8082:80 --name nginx_web mynginx:1.0
+最后通过 http://ip:8081 访问到nginx的index.html的内容
