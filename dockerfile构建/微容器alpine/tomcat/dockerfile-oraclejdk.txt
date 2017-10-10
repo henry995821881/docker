@@ -1,0 +1,21 @@
+# AlpineLinux oracle jre8
+FROM frolvlad/alpine-glibc:alpine-3.6
+
+# Install cURL
+RUN echo -e "https://mirror.tuna.tsinghua.edu.cn/alpine/v3.4/main\n\
+https://mirror.tuna.tsinghua.edu.cn/alpine/v3.4/community" > /etc/apk/repositories
+
+ADD jre-8u144-linux-x64.tar.gz /usr/local
+
+# Set environment
+ENV JAVA_HOME /usr/local/jre1.8.0_144
+ENV PATH ${PATH}:${JAVA_HOME}/bin
+
+
+
+# docker build -t henry/oraclejdk8:v1
+#docker images   查看所有本地镜像
+#docker run -d -it  --name oraclejdk8  henry/oraclejdk8:v1
+#docker ps -a 获得容器id
+
+#docker exec -it 容器id /bin/sh
